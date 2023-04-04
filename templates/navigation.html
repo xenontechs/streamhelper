@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark-subtle">
+    <div class="container-fluid">
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <ul class="navbar-nav me-auto">
+                {% for nav in navigationData %}
+                    {% if nav.pos == 'l' %}
+                        <li class="nav-item">
+                            {% if nav.target == '_self'  %}
+                                <a class="nav-link {{ nav.style}}" href="{{ url_for('routes.' + nav.link) }}" target="_self">{{ nav.name }}</a>
+                            {% else %}
+                                <a class="nav-link {{ nav.style}}" href="{{ nav.link }}" target="{{ nav.target }}">{{ nav.name }}</a>
+                            {% endif %}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="mx-auto order-0">
+            <a class="navbar-brand mx-auto" href="#"> 
+                <!-- TITLE: {% block title %} {% endblock %} this doesn't work because nesting madness, but we have title in target file already-->
+            </a>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ms-auto">
+                {% for nav in navigationData %}
+                    {% if nav.pos == 'r' %}
+                        <li class="nav-item">
+                            {% if nav.target == '_self'  %}
+                                <a class="nav-link {{ nav.style}}" href="{{ url_for('routes.' + nav.link) }}" target="_self">{{ nav.name }}</a>
+                            {% else %}
+                                <a class="nav-link {{ nav.style}}" href="{{ nav.link }}" target="{{ nav.target }}">{{ nav.name }}</a>
+                            {% endif %}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+

@@ -1,0 +1,13 @@
+
+{% extends 'base.html' %}
+
+{% block navigation %}
+    {% with navigationData=navigationData %}
+        {% include 'navigation.html' %} 
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+<h1>{% block title %} Home {% endblock %}</h1>
+use navigation to navigate to places
+{% endblock %}

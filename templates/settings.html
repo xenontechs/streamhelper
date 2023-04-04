@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+
+{% block navigation %}
+    {% with navigationData=navigationData %}
+        {% include 'navigation.html' %} 
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+<h1>{% block title %} Config File {% endblock %}</h1>
+<form method="post">
+    <table>
+        {% for section in config.sections() %}
+        <tr>
+            <th>{{ section }}</th>
+        </tr>
+        {% for option in config.options(section) %}
+            {% if 'password' in option  %}
+                {% set type = 'password' %}
+            {% else %}
+                {% set type = 'text' %}
+            {% endif %}
+        <tr>
+            <td><label for="{{ option }}" class="form-label">{{ option }}</label></td>
+            <td><input type="{{ type }}" name="{{ section }}.{{ option }}" id="{{ option }}" value="{{ config.get(section, option) }}" class="form-control"></td>
+        </tr>
+        {% endfor %}
+        {% endfor %}
+        
+        <tr>
+            <th>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </th>
+        </tr>
+    </table>
+</form>
+{% endblock %}

@@ -1,0 +1,11 @@
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48;
+}
+
+.filter-white{
+    filter: invert(82%) sepia(100%) saturate(0%) hue-rotate(56deg) brightness(104%) contrast(104%);
+}

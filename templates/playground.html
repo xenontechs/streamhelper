@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block navigation %}
+  {% with navigationData=navigationData %}
+    {% include 'empty.html' if nonav else 'navigation.html' %}
+  {% endwith %}
+{% endblock %}
+
+
+{% block content %}
+<script>
+  <!-- $(document).ready(function() {
+    $('#button1').click(function() {
+      $.get('http://localhost:5000/button1');
+    });
+    $('#button2').click(function() {
+      $.get('http://localhost:5000/button2');
+    });
+    $('#button3').click(function() {
+      $.get('http://localhost:5000/button3');
+    });
+    $('#button4').click(function() {
+      $.get('http://localhost:5000/button4');
+    });
+  }); -->
+</script>
+<div class="mx-auto">
+  <button id="button1" type="button" class="btn btn-primary btn-sm mb-1">Button 1</button>
+  <button id="button2" type="button" class="btn btn-primary btn-sm mb-1">Button 2</button>
+  <button id="button3" type="button" class="btn btn-primary btn-sm mb-1">Button 3</button>
+  <button id="button4" type="button" class="btn btn-primary btn-sm mb-1">Button 4</button>
+  <button id="button4" type="button" class="btn btn-primary btn-sm mb-1">Button 4</button>
+  <button id="button4" type="button" class="btn btn-primary btn-sm mb-1">Button 4</button>
+  <button id="button4" type="button" class="btn btn-primary btn-sm mb-1">Button 4</button>
+  <button id="button4" type="button" class="btn btn-primary btn-sm mb-1">Button 4</button>
+  <button id="button4" type="button" class="btn btn-primary btn-sm mb-1">Button 4</button>
+</div>
+<form method="post">
+  <div class="btn-group btn-group-sm" role="group">
+    <button type="submit" class="btn btn-primary" name="execute" action="{{ url_for(request.endpoint) }}" value="{{ value }}">Left</button>
+    <button type="button" class="btn btn-outline-primary">Middle</button>
+    <button type="button" class="btn btn-outline-primary" disabled>Right</button>
+  </div>
+  <div class="btn-group btn-group-sm" role="group">
+    <button type="submit" class="btn btn-success" name="execute" action="{{ url_for(request.endpoint) }}" value="{{ value }}">Left</button>
+    <button type="submit" class="btn btn-outline-danger" name="execute" action="{{ url_for(request.endpoint) }}" value="{{ value }}">Left</button>
+    <button type="submit" class="btn btn-outline-danger" name="execute" action="{{ url_for(request.endpoint) }}" value="{{ value }}">Left</button>
+  </div>
+</form>
+<hr>
+<form method="post">
+{% for key, item in buttons.items() %} 
+  {% if loop.first %} 
+    {% if not item.group == '' %} 
+      <div class="btn-group btn-group-sm" role="group">
+    {% endif %}
+  {% endif %}
+  {% if not loop.first %} 
+    {% if not item.group == '' %} 
+      {% if not item.group == loop.previtem.1.group %} 
+        <div class="btn-group btn-group-sm" role="group">
+      {% endif %}
+    {% endif %}
+  {% endif %}
+  <button type="submit" 
+    class="btn btn-sm {{ item.getStateClass() }}" 
+    name="execute" 
+    action="{{ url_for(request.endpoint) }}" 
+    value="{{ key + '.' + item.group + '.' + item.name + '.' + item.execute }}">
+    {{ item.name }}
+  </button>
+
+  {% if loop.last %} 
+    {% if not item.group == '' %} 
+        </div>
+    {% endif %}
+  {% endif %}
+  {% if not loop.last %} 
+    {% if not loop.first %} 
+      {% if not item.group == loop.nextitem.1.group %} 
+          </div>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+</form>
+{% endblock %}

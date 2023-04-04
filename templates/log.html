@@ -1,0 +1,17 @@
+
+{% extends 'base.html' %}
+
+{% block navigation %}
+    {% with navigationData=navigationData %}
+        {% include 'navigation.html' %}    
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+<h1>{% block title %} Log File {% endblock %}</h1>
+
+    {% for line in logcontents %} 
+        {{ line }}<br>
+    {% endfor %}
+
+{% endblock %}

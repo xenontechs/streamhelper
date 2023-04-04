@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %} - Xenos twitchhelper</title>
+    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body data-bs-theme="dark">
+    {% block navigation %} {% endblock %}
+    <div class="container-fluid">
+        {% block content %} {% endblock %}
+    </div>
+</body>
+</html>

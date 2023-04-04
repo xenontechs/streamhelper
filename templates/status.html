@@ -1,0 +1,13 @@
+
+{% extends 'base.html' %}
+
+{% block navigation %}
+    {% with navigationData=navigationData %}
+        {% include 'navigation.html' %} 
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+<h1>{% block title %} Status {% endblock %}</h1>
+<p>this should list current status of things, like which apps are running, which extensions are enabled and which presets are set</p>
+{% endblock %}
