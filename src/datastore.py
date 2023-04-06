@@ -2,7 +2,9 @@ import configparser
 
 
 class deckbutton:
-    def __init__(self, group='none', name='', execute='', state='active', icon='') -> None:
+    def __init__(
+        self, group="none", name="", execute="", state="active", icon=""
+    ) -> None:
         self.group = group
         self.name = name
         self.execute = execute
@@ -16,16 +18,16 @@ class deckbutton:
         # -
 
     stateTranslate = {
-        'active': 'btn-primary',
-        'enabled': 'btn-success',
-        'inactive': 'btn-outline-inactive',
-        'disabled': 'btn-outline-danger'
+        "active": "btn-primary",
+        "enabled": "btn-success",
+        "inactive": "btn-outline-inactive",
+        "disabled": "btn-outline-danger",
     }
 
     # if only there was a way to have the will to do this properly
     iconTranslate = {
-        'scene': r'static\scene_FILL0_wght400_GRAD0_opsz20.svg',
-        'music': r'static\music_note_FILL0_wght400_GRAD0_opsz20.svg'
+        "scene": r"static\scene_FILL0_wght400_GRAD0_opsz20.svg",
+        "music": r"static\music_note_FILL0_wght400_GRAD0_opsz20.svg",
     }
 
     def getStateClass(self):
@@ -37,7 +39,8 @@ class deckbutton:
 
 class navlink:
     """makes it easy to set navigation items"""
-    def __init__(self, name, link, pos='l', style='', target='_self') -> None:
+
+    def __init__(self, name, link, pos="l", style="", target="_self") -> None:
         """name is visible name,
         link is route or URI (required proper target definition),
         pos is position in nav pane (l, r, ...),
@@ -56,29 +59,29 @@ class navlink:
 # that just needs to be clear in the roundabout that thing taked in the update circle
 # be a happy and defined object --> be button --> be posted --> be evaluated by macro --> be happy up-to-date object
 buttons = {
-    '0': deckbutton('sceneswitch', 'icon', '', 'inactive', 'scene'),
-    '1': deckbutton('sceneswitch', 'start', 'Stream Starting', 'disabled'),
-    '2': deckbutton('sceneswitch', 'ingame', 'In-Game', 'disabled'),
-    '3': deckbutton('sceneswitch', 'brb', 'BRB', 'disabled'),
-    '4': deckbutton('sceneswitch', 'onfire', 'onfire', 'disabled'),
-    '5': deckbutton('sceneswitch', 'leaving', 'Stream Ending', 'disabled'),
-    '6': deckbutton('music', 'icon', '', 'inactive', 'music'),
-    '7': deckbutton('music', 'Disable', 'disablemusic', 'active'),
-    '8': deckbutton('music', 'Spotify', 'togglespotify', 'disabled'),
-    '9': deckbutton('music', 'Pretzel', 'togglepretzel', 'disabled'),
-    '10': deckbutton('music', 'Browser', 'togglebrowsermusic', 'disabled')
+    "0": deckbutton("sceneswitch", "icon", "", "inactive", "scene"),
+    "1": deckbutton("sceneswitch", "start", "Stream Starting", "disabled"),
+    "2": deckbutton("sceneswitch", "ingame", "In-Game", "disabled"),
+    "3": deckbutton("sceneswitch", "brb", "BRB", "disabled"),
+    "4": deckbutton("sceneswitch", "onfire", "onfire", "disabled"),
+    "5": deckbutton("sceneswitch", "leaving", "Stream Ending", "disabled"),
+    "6": deckbutton("music", "icon", "", "inactive", "music"),
+    "7": deckbutton("music", "Disable", "disablemusic", "active"),
+    "8": deckbutton("music", "Spotify", "togglespotify", "disabled"),
+    "9": deckbutton("music", "Pretzel", "togglepretzel", "disabled"),
+    "10": deckbutton("music", "Browser", "togglebrowsermusic", "disabled"),
 }
 
 
 navigationData = [
-    navlink('Settings', 'settings', 'l'),
-    navlink('About', 'about', 'l'),
-    navlink('Status', 'status', 'l'),
-    navlink('Log', 'log', 'l'),
-    navlink('Deck', 'deck', 'l'),
-    navlink('playground', 'playground', 'l'),
-    navlink('Code', 'https://github.com/xenontechs', 'r', target='_blank'),
-    navlink('[xt]', 'https://xenontechs.space', 'r', target='_blank')
+    navlink("Settings", "settings", "l"),
+    navlink("About", "about", "l"),
+    navlink("Status", "status", "l"),
+    navlink("Log", "log", "l"),
+    navlink("Deck", "deck", "l"),
+    navlink("playground", "playground", "l"),
+    navlink("Code", "https://github.com/xenontechs", "r", target="_blank"),
+    navlink("[xt]", "https://xenontechs.space", "r", target="_blank"),
 ]
 
 

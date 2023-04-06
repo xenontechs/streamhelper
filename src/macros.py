@@ -5,17 +5,17 @@ import src.datastore as data
 
 
 def raw(id, type, action):
-    print('id:' + id + ' type:' + type + ' action:' + action)
-    error = ''
+    print("id:" + id + " type:" + type + " action:" + action)
+    error = ""
     match type:
-        case 'sceneswitch':
+        case "sceneswitch":
             error = obs.selectSceneByName(action)
-            if (error.datain['status'] == 'ok'):
+            if error.datain["status"] == "ok":
                 for key, value in data.buttons.items():
-                    if (value.group == 'sceneswitch' and value.execute != ''):
-                        value.state = 'disabled'
-                data.buttons[id].state = 'enabled'
+                    if value.group == "sceneswitch" and value.execute != "":
+                        value.state = "disabled"
+                data.buttons[id].state = "enabled"
                 return 0
             else:
-                print('argh!')
+                print("argh!")
                 return 1

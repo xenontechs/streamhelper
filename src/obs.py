@@ -2,8 +2,6 @@
 using https://github.com/Elektordi/obs-websocket-py"""
 from obswebsocket import obsws, requests
 import src.datastore as data
-import time
-
 
 ws = {}
 
