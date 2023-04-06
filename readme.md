@@ -19,13 +19,17 @@ current version: early prototype
 
 # how to use
 1. clone repo
-2. launch app.py with python
-3. open http://127.0.0.1:5000/ in browser
-4. click things until you hit "settings", fill them to the best of your ability
-5. go to OBS, add a Browser Deck with the URL http://127.0.0.1:5000/deck?nonav=heckyeah
-6. you should now have buttons in OBS that probably don't do things
-7. go to src/datastore.py and configure the buttons properly
-8. good luck
+2. Run `python -m venv venv` to create a virtual environment and activate the venv (see https://docs.python.org/3/library/venv.html)
+3. Install the required packages with either
+  * `pip install -r contrib/requirements.txt` for development OR 
+  * `pip install -r contrib/requirements.lock` for stable requirements
+5. run `python app.py`
+6. open http://127.0.0.1:5000/ in your browser
+7. click things until you hit "settings", fill them to the best of your ability
+8. go to OBS, add a Browser Deck with the URL http://127.0.0.1:5000/deck?nonav=heckyeah
+9.  you should now have buttons in OBS that probably don't do things
+10. go to src/datastore.py and configure the buttons properly
+11. good luck
 
 # how to contribute
 feel free to commit to the dev branch, but be careful, I will hold submissions to the highest standards that I know of. at the moment these standards are very low, but I do not give any guarantees for the future. 
