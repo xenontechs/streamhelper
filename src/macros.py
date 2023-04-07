@@ -18,12 +18,13 @@ def raw(id, type, action):
         # a wild sceneswitch button, call OBS websocket, if good, flip all buttons accordingly
         case "sceneswitch":
             error = obs.selectSceneByName(action)
-            if error.datain["status"] == "ok":
-                for key, value in data.buttons.items():
-                    if value.group == "sceneswitch" and value.execute != "":
-                        value.state = "disabled"
-                data.buttons[id].state = "enabled"
-                return 0
-            else:
-                print("argh!")
-                return 1
+            # error handling needs to be fixed to V5
+            # if error.datain["status"] == "ok":
+            #     for key, value in data.buttons.items():
+            #         if value.group == "sceneswitch" and value.execute != "":
+            #             value.state = "disabled"
+            #     data.buttons[id].state = "enabled"
+            #     return 0
+            # else:
+            #     print("argh!")
+            #     return 1

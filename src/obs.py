@@ -14,7 +14,7 @@ def prepare():
         obsSettings["websocketAddress"],
         obsSettings["websocketPort"],
         obsSettings["websocketPassword"],
-        legacy=True,
+        # legacy=True,
     )
 
 
@@ -27,8 +27,8 @@ def selectSceneByName(sceneName):
     :rtype: str?
     """
     ws.connect()
-    # print(ws.call(requests.SetCurrentProgramScene(sceneName=sceneName)))
-    error = ws.call(requests.SetCurrentScene(**{"scene-name": sceneName}))
+    error = ws.call(requests.SetCurrentProgramScene(sceneName=sceneName))
+    # error = ws.call(requests.SetCurrentScene(**{"scene-name": sceneName}))
     ws.disconnect()
     return error
 
