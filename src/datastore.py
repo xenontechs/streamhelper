@@ -2,9 +2,25 @@ import configparser
 
 
 class deckbutton:
+    """any button thrown on the page that should do something
+    essentially not more than mapping some strings to pass around"""
+
     def __init__(
         self, group="none", name="", execute="", state="active", icon=""
     ) -> None:
+        """initializes deckbutton object
+
+        :param group: is used in front end to group buttons neatly if they have the same name, defaults to "none"
+        :type group: str, optional
+        :param name: visible name on the button, defaults to ""
+        :type name: str, optional
+        :param execute: the macrofunction to execure, defaults to ""
+        :type execute: str, optional
+        :param state: visible state of the button, defaults to "active"
+        :type state: str, optional
+        :param icon: icon name superseeds name if exists, neds to be resolved in iconTranslate, defaults to ""
+        :type icon: str, optional
+        """
         self.group = group
         self.name = name
         self.execute = execute
@@ -15,7 +31,6 @@ class deckbutton:
         # - inactive - a button that does nothing
         # - enabled - a feature that's enabled
         # - disabled - a feature that is disabled
-        # -
 
     stateTranslate = {
         "active": "btn-primary",
@@ -31,9 +46,11 @@ class deckbutton:
     }
 
     def getStateClass(self):
+        """resolves self.state into CSS class"""
         return self.stateTranslate[self.state]
 
     def getIconPath(self):
+        """resolves self.icon into icon file path"""
         return self.iconTranslate[self.icon]
 
 
@@ -41,13 +58,23 @@ class navlink:
     """makes it easy to set navigation items"""
 
     def __init__(self, name, link, pos="l", style="", target="_self") -> None:
-        """name is visible name,
-        link is route or URI (required proper target definition),
-        pos is position in nav pane (l, r, ...),
-        style is css class(es),
+        """initializes navlinks
+
+        :param name: visible name
+        :type name: str
+        :param link: target link
+        :type link: str
+        :param pos: position in the navigation pane, defaults to "l"
+        :type pos: str, optional
+        :param style: CSS class, defaults to ""
+        :type style: str, optional
+        :param target: window target, defaults to "_self"
+        :type target: str, optional
+
         target is _self or anything else (picked up by a.target in templates)
         this solves the problem of not looking for http in URI, which could be something else
-        but it kills opening internal links in new windows if needed"""
+        but it kills opening internal links in new windows if needed
+        """
         self.name = name
         self.link = link
         self.pos = pos
@@ -72,7 +99,7 @@ buttons = {
     "10": deckbutton("music", "Browser", "togglebrowsermusic", "disabled"),
 }
 
-
+# defines links for the navigation pane
 navigationData = [
     navlink("Settings", "settings", "l"),
     navlink("About", "about", "l"),
@@ -85,6 +112,7 @@ navigationData = [
 ]
 
 
+# initialize config here, use it later in other places
 config = configparser.ConfigParser()
 
 
