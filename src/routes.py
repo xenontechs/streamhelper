@@ -92,22 +92,22 @@ def deck():
     )
 
 
-# # playground page
-# @bp.route("/playground", methods=["GET", "POST"])
-# def playground():
-#     if request.method == "POST":
-#         for key, value in request.form.items():
-#             print(key + " - " + value)
-#             items = value.split(".")
-#         macro.raw(items[0], items[1], items[3])
-#     config = configparser.ConfigParser()
-#     config.read("config.ini")
-#     nonav = request.args.get("nonav")
-#     return render_template(
-#         "playground.html",
-#         nonav=nonav,
-#         navigationData=data.navigationData,
-#         statuslist=data.statuslist,
-#         config=config,
-#         buttons=data.buttons,
-#     )
+# playground page
+@bp.route("/playground", methods=["GET", "POST"])
+def playground():
+    if request.method == "POST":
+        for key, value in request.form.items():
+            print(key + " - " + value)
+            items = value.split(".")
+        macro.raw(items[0], items[1], items[3])
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    nonav = request.args.get("nonav")
+    return render_template(
+        "playground.html",
+        nonav=nonav,
+        navigationData=data.navigationData,
+        statuslist=data.statuslist,
+        config=config,
+        buttons=data.buttons,
+    )
