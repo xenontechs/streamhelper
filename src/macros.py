@@ -14,6 +14,7 @@ def raw(id, type, action):
     """
     print("id:" + id + " type:" + type + " action:" + action)
     # error = ""
+    sceneId, itemId = id.split("-")
     match type:
         # a wild sceneswitch button, call OBS websocket, if good, flip all buttons accordingly
         case "sceneswitch":
@@ -31,3 +32,11 @@ def raw(id, type, action):
         case "visibility":
             scene = obs.getSceneItemByName(action)
             scene.toggle()
+        case "testing":
+            print("looking for scene " + sceneId + " and item " + itemId)
+            scene = obs.getSceneById(sceneId)
+            print("found scene: " + scene.name)
+            match action:
+                case "togglevisibility":
+                    item = scene.getSceneItemById(itemId)
+                    item.toggle()

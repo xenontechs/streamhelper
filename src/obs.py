@@ -37,7 +37,7 @@ class scene:
 
         self.id = sceneId
         self.name = sceneName
-        self.objectId = sceneObjects.count
+        self.objectId = sceneObjects.__len__()
         sceneObjects.append(self)
 
     def getSceneItems(self):
@@ -67,7 +67,7 @@ class scene:
                 sourceName,
                 sourceType,
                 sceneItemEnabled,
-                self.sceneItemObjects.count,
+                self.sceneItemObjects.__len__(),
             )
         )
 
@@ -91,6 +91,11 @@ class scene:
     def getSceneItemByReference(self, sceneItemReference) -> sceneItem:
         for scene in self.getSceneItems():
             if scene.objectId == sceneItemReference:
+                return scene
+
+    def getSceneItemById(self, sceneItemId) -> sceneItem:
+        for scene in self.getSceneItems():
+            if int(scene.sceneItemId) == int(sceneItemId):
                 return scene
 
 
@@ -230,5 +235,12 @@ def getSceneItemByName(sceneItemName) -> sceneItem:
 
 def getSceneByReference(sceneReference) -> scene:
     for scene in getScenes():
+        print("getSceneByReference: found scene " + scene.name + " with objId " + str(scene.objectId))
         if scene.objectId == sceneReference:
+            return scene
+
+
+def getSceneById(sceneId) -> scene:
+    for scene in getScenes():
+        if int(scene.id) == int(sceneId):
             return scene
