@@ -142,7 +142,6 @@ def populateScenes():
     """adds all scenes and sceneItems from OBS websocket
     """
     requestScenes = getSceneList()
-    print(requestScenes.scenes)
     for requestScene in requestScenes.scenes:
         tempscene = scene(requestScene["sceneIndex"], requestScene["sceneName"])
         for requestSceneItem in getSceneItemList(requestScene["sceneName"]).scene_items:
