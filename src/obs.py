@@ -1,7 +1,9 @@
 """obs websocket functions
 using https://github.com/aatikturk/obsws-python"""
+from __future__ import annotations
 import obsws_python as obswsp
 import src.datastore as data
+import weakref
 
 # pre-initialize global websocket
 wsp = {}
@@ -11,13 +13,12 @@ sceneObjects = []
 
 
 def getScenes():
+    """get a list of all scenes
+
+    :return: all scene objects
+    :rtype: list
+    """
     return sceneObjects
-
-
-def getSceneByName(sceneName):
-    for scene in sceneObjects:
-        if scene.name == sceneName:
-            return scene
 
 
 class scene:
@@ -59,7 +60,7 @@ class scene:
         :param sceneItemEnabled: if it is visible or not
         :type sceneItemEnabled: bool
         """
-        self.sceneItemObjects.append(sceneItem(sceneItemId, sourceName, sourceType, sceneItemEnabled, self.sceneItemObjects.count))
+        self.sceneItemObjects.append(sceneItem(self, sceneItemId, sourceName, sourceType, sceneItemEnabled, self.sceneItemObjects.count))
 
     def getSceneItemIdByName(self, sceneName):
         """for looking up IDs based on name
@@ -73,26 +74,47 @@ class scene:
             if sceneItem.name == sceneName:
                 return sceneItem.sceneItemId
 
+    def getSceneItemByName(self, sceneItemName) -> sceneItem:
+        for sceneItem in self.getSceneItems():
+            if sceneItem.sourceName == sceneItemName:
+                return sceneItem
+
 
 class sceneItem:
-    def __init__(self, sceneItemId, sourceName, sourceType, sceneItemEnabled, objectId):
+    def __init__(self, parent, sceneItemId, sourceName, sourceType, sceneItemEnabled, objectId):
+        # add parent object reference for internal getByName functions
+        # self.parent = weakref.ref(parent)
+        # apparently this is bad for garbage collection, but I'll make up for it by drinking from Mehrweg bottles:
+        self.parent = parent
         self.objectId = objectId
         self.sceneItemId = sceneItemId
         self.sourceName = sourceName
         self.sourceType = sourceType
         self.sceneItemEnabled = sceneItemEnabled
 
+    def enable(self):
+        setSceneItemEnabledOnWebsocket(self.parent.name, self.sceneItemId, True)
+        self.sceneItemEnabled = True
+
+    def disable(self):
+        setSceneItemEnabledOnWebsocket(self.parent.name, self.sceneItemId, False)
+        self.sceneItemEnabled = False
+
+    def toggle(self):
+        setSceneItemEnabledOnWebsocket(self.parent.name, self.sceneItemId, not self.sceneItemEnabled)
+        self.sceneItemEnabled = not self.sceneItemEnabled
+
+
+def getSceneByName(sceneName) -> scene:
+    for scene in sceneObjects:
+        if scene.name == sceneName:
+            return scene
+
 
 def prepare():
     """sets up the ws class, to be called at the correct time. could probably be an object or something"""
     obsSettings = data.config["obs-settings"]
-    # global ws
     global wsp
-    # ws = obsws(
-    #     obsSettings["websocketAddress"],
-    #     obsSettings["websocketPort"],
-    #     obsSettings["websocketPassword"]
-    # )
     wsp = obswsp.ReqClient(
         host=obsSettings["websocketAddress"],
         port=obsSettings["websocketPort"],
@@ -100,7 +122,7 @@ def prepare():
     )
 
 
-def selectSceneByName(sceneName):
+def selectSceneByNameOnWebsocket(sceneName):
     """selects a scene based on the name
 
     :param sceneName: the name of the scene
@@ -112,11 +134,11 @@ def selectSceneByName(sceneName):
     return error
 
 
-def setSceneItemEnabled(sceneName, sceneItemId, sceneItemEnabled):
-    pass
+def setSceneItemEnabledOnWebsocket(sceneName, sceneItemId, sceneItemEnabled):
+    wsp.set_scene_item_enabled(sceneName, sceneItemId, sceneItemEnabled)
 
 
-def getSceneList():
+def getSceneListFromWebsocket():
     """retreive list of scenes
 
     :return: array of scenes
@@ -141,7 +163,7 @@ def getSceneItemList(sceneName):
 def populateScenes():
     """adds all scenes and sceneItems from OBS websocket
     """
-    requestScenes = getSceneList()
+    requestScenes = getSceneListFromWebsocket()
     for requestScene in requestScenes.scenes:
         tempscene = scene(requestScene["sceneIndex"], requestScene["sceneName"])
         for requestSceneItem in getSceneItemList(requestScene["sceneName"]).scene_items:
@@ -160,3 +182,15 @@ def refreshScenes():
     global sceneObjects
     sceneObjects = []
     populateScenes()
+
+
+def getSceneItemIdByName(sceneItemName):
+    for scene in getScenes():
+        if scene.getSceneItemIdByName(sceneItemName):
+            return scene.getSceneItemIdByName(sceneItemName)
+
+
+def getSceneItemByName(sceneItemName) -> sceneItem:
+    for scene in getScenes():
+        if scene.getSceneItemByName(sceneItemName):
+            return scene.getSceneItemByName(sceneItemName)
