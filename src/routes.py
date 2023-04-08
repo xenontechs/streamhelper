@@ -96,7 +96,7 @@ def deck():
 # scenes page
 @bp.route("/scenes")
 def scenes():
-    return render_template("scenes.html", scenes=obs.getScenes())
+    return render_template("scenes.html", scenes=obs.getScenes(), navigationData=data.navigationData)
 
 
 # playground page
