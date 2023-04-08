@@ -235,7 +235,6 @@ def getSceneItemByName(sceneItemName) -> sceneItem:
 
 def getSceneByReference(sceneReference) -> scene:
     for scene in getScenes():
-        print("getSceneByReference: found scene " + scene.name + " with objId " + str(scene.objectId))
         if scene.objectId == sceneReference:
             return scene
 
@@ -244,3 +243,22 @@ def getSceneById(sceneId) -> scene:
     for scene in getScenes():
         if int(scene.id) == int(sceneId):
             return scene
+
+
+class general:
+    def __init__(self) -> None:
+        pass
+
+    def getVersion():
+        version = wsp.get_version()
+        return version
+
+    def getStats():
+        stats = wsp.get_stats()
+        return stats
+
+    def TriggerHotkeyByName(hotkeyName):
+        wsp.trigger_hot_key_by_name(hotkeyName)
+
+
+gen = general
