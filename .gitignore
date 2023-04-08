@@ -1,6 +1,7 @@
 # streamhelper
 config.ini
 event.log
+temp/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

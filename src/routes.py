@@ -3,6 +3,7 @@ import configparser
 import logging
 import src.datastore as data
 import src.macros as macro
+import src.obs as obs
 
 
 EVENTLOG_FILENAME = "event.log"
@@ -90,6 +91,12 @@ def deck():
         navigationData=data.navigationData,
         buttons=data.buttons,
     )
+
+
+# scenes page
+@bp.route("/scenes")
+def scenes():
+    return render_template("scenes.html", scenes=obs.getScenes())
 
 
 # playground page

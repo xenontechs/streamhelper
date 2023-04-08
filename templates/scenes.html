@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block navigation %}
+    {% with navigationData=navigationData %}
+        {% include 'navigation.html' %} 
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+<h1>{% block title %} Scenes {% endblock %}</h1>
+<p>List of scenes, scene items and their respective ID in OBS</p>
+<ul>
+    {% for scene in scenes %}
+    <li class="list-group-item">
+        <details>
+            <summary>{{ scene.id }}: {{ scene.name }} </summary>
+            <ul>
+            {% for sceneItem in scene.getSceneItems() %}
+                <li>{{ sceneItem.sceneItemId }}: {{ sceneItem.sourceName }}</li>
+            {% endfor %}
+    
+            </ul>
+        </details>  
+    {% endfor %}
+</ul>
+{% endblock %}

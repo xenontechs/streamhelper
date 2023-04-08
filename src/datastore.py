@@ -106,6 +106,7 @@ navigationData = [
     navlink("Status", "status", "l"),
     navlink("Log", "log", "l"),
     navlink("Deck", "deck", "l"),
+    navlink("Scenes", "scenes", "l"),
     navlink("playground", "playground", "l"),
     navlink("Code", "https://github.com/xenontechs", "r", target="_blank"),
     navlink("[xt]", "https://xenontechs.space", "r", target="_blank"),
