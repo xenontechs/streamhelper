@@ -40,3 +40,7 @@ def raw(id, type, action):
                 case "togglevisibility":
                     item = scene.getSceneItemById(itemId)
                     item.toggle()
+                    if data.buttons[id].state == "enabled":
+                        data.buttons[id].state = "disabled"
+                    else:
+                        data.buttons[id].state = "enabled"
