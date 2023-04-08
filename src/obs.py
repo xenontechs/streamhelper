@@ -60,7 +60,16 @@ class scene:
         :param sceneItemEnabled: if it is visible or not
         :type sceneItemEnabled: bool
         """
-        self.sceneItemObjects.append(sceneItem(self, sceneItemId, sourceName, sourceType, sceneItemEnabled, self.sceneItemObjects.count))
+        self.sceneItemObjects.append(
+            sceneItem(
+                self,
+                sceneItemId,
+                sourceName,
+                sourceType,
+                sceneItemEnabled,
+                self.sceneItemObjects.count,
+            )
+        )
 
     def getSceneItemIdByName(self, sceneName):
         """for looking up IDs based on name
@@ -79,9 +88,16 @@ class scene:
             if sceneItem.sourceName == sceneItemName:
                 return sceneItem
 
+    def getSceneItemByReference(self, sceneItemReference) -> sceneItem:
+        for scene in self.getSceneItems():
+            if scene.objectId == sceneItemReference:
+                return scene
+
 
 class sceneItem:
-    def __init__(self, parent, sceneItemId, sourceName, sourceType, sceneItemEnabled, objectId):
+    def __init__(
+        self, parent, sceneItemId, sourceName, sourceType, sceneItemEnabled, objectId
+    ):
         # add parent object reference for internal getByName functions
         # self.parent = weakref.ref(parent)
         # apparently this is bad for garbage collection, but I'll make up for it by drinking from Mehrweg bottles:
@@ -101,7 +117,9 @@ class sceneItem:
         self.sceneItemEnabled = False
 
     def toggle(self):
-        setSceneItemEnabledOnWebsocket(self.parent.name, self.sceneItemId, not self.sceneItemEnabled)
+        setSceneItemEnabledOnWebsocket(
+            self.parent.name, self.sceneItemId, not self.sceneItemEnabled
+        )
         self.sceneItemEnabled = not self.sceneItemEnabled
 
 
@@ -118,7 +136,7 @@ def prepare():
     wsp = obswsp.ReqClient(
         host=obsSettings["websocketAddress"],
         port=obsSettings["websocketPort"],
-        password=obsSettings["websocketPassword"]
+        password=obsSettings["websocketPassword"],
     )
 
 
@@ -161,23 +179,23 @@ def getSceneItemListFromWebsocket(sceneName):
 
 
 def populateScenes():
-    """adds all scenes and sceneItems from OBS websocket
-    """
+    """adds all scenes and sceneItems from OBS websocket"""
     requestScenes = getSceneListFromWebsocket()
     for requestScene in requestScenes.scenes:
         tempscene = scene(requestScene["sceneIndex"], requestScene["sceneName"])
-        for requestSceneItem in getSceneItemListFromWebsocket(requestScene["sceneName"]).scene_items:
+        for requestSceneItem in getSceneItemListFromWebsocket(
+            requestScene["sceneName"]
+        ).scene_items:
             tempscene.addSceneItem(
                 requestSceneItem["sceneItemId"],
                 requestSceneItem["sourceName"],
                 requestSceneItem["sourceType"],
-                requestSceneItem["sceneItemEnabled"]
+                requestSceneItem["sceneItemEnabled"],
             )
 
 
 def refreshScenes():
-    """updates scene/item data from OBS
-    """
+    """updates scene/item data from OBS"""
     # for all lack of efficiency, unreference objects
     global sceneObjects
     sceneObjects = []
@@ -208,3 +226,9 @@ def getSceneItemByName(sceneItemName) -> sceneItem:
     for scene in getScenes():
         if scene.getSceneItemByName(sceneItemName):
             return scene.getSceneItemByName(sceneItemName)
+
+
+def getSceneByReference(sceneReference) -> scene:
+    for scene in getScenes():
+        if scene.objectId == sceneReference:
+            return scene
