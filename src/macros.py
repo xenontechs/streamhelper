@@ -13,11 +13,12 @@ def raw(id, type, action):
     :return: 0 if successful, 1 if something messed up
     """
     print("id:" + id + " type:" + type + " action:" + action)
-    error = ""
+    # error = ""
+    sceneId, itemId = id.split("-")
     match type:
         # a wild sceneswitch button, call OBS websocket, if good, flip all buttons accordingly
         case "sceneswitch":
-            error = obs.selectSceneByName(action)
+            obs.selectSceneByNameOnWebsocket(action)
             # error handling needs to be fixed to V5
             # if error.datain["status"] == "ok":
             #     for key, value in data.buttons.items():
@@ -28,3 +29,18 @@ def raw(id, type, action):
             # else:
             #     print("argh!")
             #     return 1
+        case "visibility":
+            scene = obs.getSceneItemByName(action)
+            scene.toggle()
+        case "testing":
+            print("looking for scene " + sceneId + " and item " + itemId)
+            scene = obs.getSceneById(sceneId)
+            print("found scene: " + scene.name)
+            match action:
+                case "togglevisibility":
+                    item = scene.getSceneItemById(itemId)
+                    item.toggle()
+                    if data.buttons[id].state == "enabled":
+                        data.buttons[id].state = "disabled"
+                    else:
+                        data.buttons[id].state = "enabled"

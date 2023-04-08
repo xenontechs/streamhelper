@@ -97,6 +97,8 @@ buttons = {
     "8": deckbutton("music", "Spotify", "togglespotify", "disabled"),
     "9": deckbutton("music", "Pretzel", "togglepretzel", "disabled"),
     "10": deckbutton("music", "Browser", "togglebrowsermusic", "disabled"),
+    "11": deckbutton("visibility", "gamepad", "pad", "disabled"),
+    "29-7": deckbutton("testing", "gamepad", "togglevisibility", "active"),
 }
 
 # defines links for the navigation pane
