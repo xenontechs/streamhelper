@@ -148,7 +148,7 @@ def getSceneListFromWebsocket():
     return scenes
 
 
-def getSceneItemList(sceneName):
+def getSceneItemListFromWebsocket(sceneName):
     """retreive scene items by scene
 
     :param sceneName: name of the scene
@@ -166,7 +166,7 @@ def populateScenes():
     requestScenes = getSceneListFromWebsocket()
     for requestScene in requestScenes.scenes:
         tempscene = scene(requestScene["sceneIndex"], requestScene["sceneName"])
-        for requestSceneItem in getSceneItemList(requestScene["sceneName"]).scene_items:
+        for requestSceneItem in getSceneItemListFromWebsocket(requestScene["sceneName"]).scene_items:
             tempscene.addSceneItem(
                 requestSceneItem["sceneItemId"],
                 requestSceneItem["sourceName"],
@@ -185,12 +185,26 @@ def refreshScenes():
 
 
 def getSceneItemIdByName(sceneItemName):
+    """gives next best sceneItem ID across all scenes. doesn't really work when there's duplicates
+
+    :param sceneItemName: name of the sceneItem
+    :type sceneItemName: str
+    :return: sceneItemId
+    :rtype: int
+    """
     for scene in getScenes():
         if scene.getSceneItemIdByName(sceneItemName):
             return scene.getSceneItemIdByName(sceneItemName)
 
 
 def getSceneItemByName(sceneItemName) -> sceneItem:
+    """gets nects best sceneItem object across all scenes. problematic if names not unique
+
+    :param sceneItemName: name of the sceneItem
+    :type sceneItemName: str
+    :return: sceneItem object
+    :rtype: sceneItem
+    """
     for scene in getScenes():
         if scene.getSceneItemByName(sceneItemName):
             return scene.getSceneItemByName(sceneItemName)
