@@ -10,12 +10,16 @@ this is a tool to automate things in OBS, to be called from within OBS, that can
 
 current version: early prototype
 
+the documentations are *\*mumblemumble\** and the roadmap is oh hey behind you, a three-headed monkey!
+
 # (possible) features
-- local server (all yours, no cloud)
-- dock for OBS with buttons to press that do things
-- easy™ way to configure what the buttons do
-- pre-stream checklist, as automated as possible (AKA "why is my feature not working? ah, forgot to open streamerbot")
-- autodetect running game and apply that to game/app capture
+- [x] local server (all yours, no cloud)
+- [x] dock for OBS with buttons to press that do things (in OBS)
+- [x] what OBS won't tell you about! (OBS scenes breakout for setting up things by ID)
+- [ ] easy™ way to configure what the buttons do
+- [ ] pre-stream checklist, as automated as possible (AKA "why is my feature not working? ah, forgot to open streamerbot")
+- [ ] autodetect running game and apply that to game/app capture
+- [ ] modules™
 
 # how to use
 1. clone repo
@@ -32,4 +36,15 @@ current version: early prototype
 11. good luck
 
 # how to contribute
-feel free to commit to the dev branch, but be careful, I will hold submissions to the highest standards that I know of. at the moment these standards are very low, but I do not give any guarantees for the future. 
+feel free to commit **to the dev branch**, but be careful, I will hold submissions to the highest standards that I know of. at the moment these standards are very low, but I do not give any guarantees for the future. 
+
+the active repo is on [GitHub](https://github.com/xenontechs/streamhelper), the one on [GitLab](https://gitlab.com/xenontechs/streamhelper) is automatically cloned. If possible, please create PRs on **GitHub**.
+
+# a bit more guidance...
+- buttons on the deck are defined in datastore.py, the attributes are passed along the GET+POST to be evaluated by macros.py
+  - this whole process is still being evaluated between "all is preprogrammed" and "programm is evaluating button stuff"
+- datastore.py should hold all data, generally speaking
+- obs.py has a ton of functions to resolve scene data back and forth
+- routes.py should be clean and just for flask routing, but constantly takes all debugging abuse
+- playground exists to play around with all functions. create all the buttons in playground.html
+- log is that dark place over there we don't look at
