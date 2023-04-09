@@ -1,4 +1,7 @@
 import configparser
+import src.status as status
+
+appstatus = status.status()
 
 
 class deckbutton:
