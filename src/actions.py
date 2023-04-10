@@ -6,4 +6,3 @@ class actions:
 
     def getButton(self):
         pass
-    
