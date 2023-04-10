@@ -38,7 +38,7 @@ the documentations are *\*mumblemumble\** and the roadmap is oh hey behind you, 
 # how to contribute
 feel free to commit **to the dev branch**, but be careful, I will hold submissions to the highest standards that I know of. at the moment these standards are very low, but I do not give any guarantees for the future. 
 
-the active repo is on [GitHub](https://github.com/xenontechs/streamhelper), the one on [GitLab](https://gitlab.com/xenontechs/streamhelper) is automatically cloned. If possible, please create PRs on **GitHub**.
+the active repo is on [GitHub](https://github.com/xenontechs/streamhelper), the one on [GitLab](https://gitlab.com/xenontechs/streamhelper) is manually cloned. If possible, please create PRs on **GitHub**.
 
 # a bit more guidance...
 - buttons on the deck are defined in datastore.py, the attributes are passed along the GET+POST to be evaluated by macros.py
