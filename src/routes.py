@@ -37,8 +37,9 @@ def about():
 # status page
 @bp.route("/status")
 def status():
+    data.appstatus.update()
     return render_template(
-        "status.html", statuslist=data.statuslist, navigationData=data.navigationData
+        "status.html", statuslist=data.statuslist, navigationData=data.navigationData, appstatus=data.appstatus.__dict__
     )
 
 

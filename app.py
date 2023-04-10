@@ -19,6 +19,6 @@ if __name__ == "__main__":
     appconfig.testconfigfile()
     obs.prepare()
     obs.populateScenes()
-
+    data.appstatus.update()
     print("Starting server on http://localhost:5000")
     app.run()
