@@ -12,6 +12,7 @@ def createDefaultConfig():
     data.config["obs-settings"]["websocketAddress"] = "127.0.0.1"
     data.config["obs-settings"]["websocketPort"] = "4444"
     data.config["obs-settings"]["websocketPassword"] = "CHANGEME"
+    data.config["extensions"] = {}
     with open(configFilePath, "w") as configfile:
         data.config.write(configfile)
     print("created config, please go to settings")
