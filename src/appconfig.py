@@ -13,9 +13,7 @@ def createDefaultConfig():
     data.config["obs-settings"]["websocketPort"] = "4444"
     data.config["obs-settings"]["websocketPassword"] = "CHANGEME"
     data.config["extensions"] = {}
-    with open(configFilePath, "w") as configfile:
-        data.config.write(configfile)
-    print("created config, please go to settings")
+    saveConfigToFile()
     return 0
 
 
@@ -29,3 +27,9 @@ def testconfigfile():
         createDefaultConfig()
     else:
         logging.debug("config file found")
+
+
+def saveConfigToFile():
+    with open(configFilePath, "w") as configfile:
+        data.config.write(configfile)
+    return 0
