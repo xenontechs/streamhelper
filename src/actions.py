@@ -1,5 +1,6 @@
 from __future__ import annotations
 import uuid
+import src.extensions as extensions
 
 
 """
@@ -48,7 +49,7 @@ that would essentially give it a more modular approach
 - che class can define the button behavior (for single-action vs toggle)
 also gives each module the possibility to check if it understands the assignment
 
-that leads us with:
+that leaves us with:
 - module name
 - module action string
 - readable name
@@ -70,6 +71,7 @@ class actions:
     def addAction(
         self,
         actionName="",
+        actionProvider="",
         actionData="",
         group="",
         state="",
@@ -81,6 +83,8 @@ class actions:
 
         :param actionName: a name to recognize, defaults to ""
         :type actionName: str, optional
+        :param actionProvider: who to send the data to, defaults to ""
+        :type actionProvider: str, optional
         :param actionData: additional data it needs to know, defaults to ""
         :type actionData: str, optional
         :param group: which group it belongs to (important in frontend), defaults to ""
@@ -98,6 +102,7 @@ class actions:
             action(
                 uuid.uuid5(UUID_NAMESPACE, UUID_NAME),
                 actionName,
+                actionProvider,
                 actionData,
                 group,
                 state,
@@ -125,10 +130,11 @@ class actions:
 # this will probably be extensions
 class action:
     def __init__(
-        self, id, action, actionData, group, state, label, icon, buttonlocation
+        self, id, action, actionProvider, actionData, group, state, label, icon, buttonlocation
     ) -> None:
         self.id = id
         self.action = action
+        self.actionProvider = actionProvider
         self.actionData = actionData
         self.group = group
         self.state = state
