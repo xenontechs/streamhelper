@@ -4,6 +4,7 @@ import logging
 import src.datastore as data
 import src.macros as macro
 import src.obs as obs
+import src.extensions as extensions
 
 
 EVENTLOG_FILENAME = "event.log"
@@ -55,15 +56,18 @@ def log():
 
 
 # settings page to edit config.ini
+# bend over appconfig.py?
+# this does not update extension settings, they need to re-init, but reload() won't do it at the moment
 @bp.route("/settings", methods=["GET", "POST"])
 def settings():
     config = configparser.ConfigParser()
     config.read("config.ini")
 
     if request.method == "POST":
+        print(request.form.to_dict)
         for key, value in request.form.items():
             # print(key + ' - ' + value)
-            section, option = key.split(".")
+            section, option = key.split(".", 1)
             config.set(section, option, value)
         with open("config.ini", "w") as configfile:
             config.write(configfile)
