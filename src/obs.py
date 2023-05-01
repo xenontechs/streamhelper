@@ -266,7 +266,14 @@ gen = general
 
 def execute(raw) -> dict:
     """manages OBS things from raw strings"""
+    # TODO: add error handling
+    # TODO: add logging
     if len(raw.split("-")) == 2:
         match raw.split("-")[0]:
             case "sceneswitch":
                 selectSceneByNameOnWebsocket(raw.split("-")[1])
+    if len(raw.split("-")) == 3:
+        match raw.split("-")[0]:
+            case "togglevisibility":
+
+
