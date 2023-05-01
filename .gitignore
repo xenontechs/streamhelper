@@ -2,6 +2,7 @@
 config.ini
 event.log
 temp/
+.VSCodeCounter/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

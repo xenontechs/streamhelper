@@ -221,7 +221,7 @@ def getSceneItemIdByName(sceneItemName):
 
 
 def getSceneItemByName(sceneItemName) -> sceneItem:
-    """gets nects best sceneItem object across all scenes. problematic if names not unique
+    """gets next best sceneItem object across all scenes. problematic if names not unique
 
     :param sceneItemName: name of the sceneItem
     :type sceneItemName: str
@@ -268,12 +268,17 @@ def execute(raw) -> dict:
     """manages OBS things from raw strings"""
     # TODO: add error handling
     # TODO: add logging
-    if len(raw.split("-")) == 2:
-        match raw.split("-")[0]:
+    r = raw.split("-")
+    if len(r) == 2:
+        match r[0]:
             case "sceneswitch":
-                selectSceneByNameOnWebsocket(raw.split("-")[1])
-    if len(raw.split("-")) == 3:
-        match raw.split("-")[0]:
+                selectSceneByNameOnWebsocket(r[1])
             case "togglevisibility":
-
-
+                scene = getSceneItemByName(r[1])
+                scene.toggle()
+    if len(r) == 3:
+        match r[0]:
+            case "togglevisibility":
+                scene = getSceneByName(r[1])
+                item = scene.getSceneItemByName(r[2])
+                item.toggle()
