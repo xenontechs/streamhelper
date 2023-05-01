@@ -65,7 +65,7 @@ UUID_NAMESPACE = uuid.NAMESPACE_DNS
 
 class actions:
     def __init__(self) -> None:
-        global actionObject
+        # global actionObject
         self.actionObjects = []
 
     def addAction(
@@ -98,19 +98,24 @@ class actions:
         :param buttonlocation: the place of the button, defaults to ""
         :type buttonlocation: str, optional
         """
-        self.actionObjects.append(
-            action(
-                uuid.uuid5(UUID_NAMESPACE, UUID_NAME),
-                actionName,
-                actionProvider,
-                actionData,
-                group,
-                state,
-                label,
-                icon,
-                buttonlocation,
-            )
+        newAction = action(
+            uuid.uuid5(UUID_NAMESPACE, UUID_NAME),
+            actionName,
+            actionProvider,
+            actionData,
+            group,
+            state,
+            label,
+            icon,
+            buttonlocation,
         )
+        # HACK: should return which thing is causing the problem
+        if newAction.test():
+            self.actionObjects.append(newAction)
+        else:
+            print(
+                f"actions: error creating action. provider:{newAction.actionProvider}, actionData:{newAction.actionData}"
+            )
         pass
 
     def getActionById(self, id):
@@ -127,10 +132,18 @@ class actions:
         # log error, UUID crappy, this should not be possible, halt all the things
 
 
-# this will probably be extensions
 class action:
     def __init__(
-        self, id, action, actionProvider, actionData, group, state, label, icon, buttonlocation
+        self,
+        id,
+        action,
+        actionProvider,
+        actionData,
+        group,
+        state,
+        label,
+        icon,
+        buttonlocation,
     ) -> None:
         self.id = id
         self.action = action
@@ -146,7 +159,12 @@ class action:
     def getState(self):
         pass
 
-    def getButton(self):
+    def getButton(self) -> list:
+        """returns all required elements for buttonplacement
+
+        :return: _description_
+        :rtype: list
+        """
         return (
             self.id.hex,
             self.buttonlocation,
@@ -155,3 +173,40 @@ class action:
             self.icon,
             self.state,
         )
+
+    def call(self) -> bool:
+        """calls this objects defined action
+
+        :return: true if good, false if bad
+        :rtype: bool
+        """
+        # check if actionProvider is native, default to extension
+        # this should possibly be iterating a lis of native providers
+        # but also there should not be any native providers (apart from macros?) once this is finished
+        match self.actionProvider:
+            case "obs":
+                # TODO: add OBS call
+                pass
+            case "macro":
+                # TODO: add macro call
+                pass
+            case _:
+                return extensions.sys.modules[self.actionProvider].execute(
+                    self.actionData
+                )
+
+    def test(self) -> bool:
+        """tests for existing provider and if it accpts the given data
+
+        :return: true if good, false if bad
+        :rtype: bool
+        """
+        if self.actionProvider in extensions.sys.modules:
+            if extensions.sys.modules[self.actionProvider].testActionData(
+                self.actionData
+            ):
+                return True
+            else:
+                return False
+        else:
+            return False
