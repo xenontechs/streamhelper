@@ -61,6 +61,13 @@ that leaves us with:
 
 UUID_NAME = "xenontechs.space/streamhelper#actions"
 UUID_NAMESPACE = uuid.NAMESPACE_DNS
+stateclasses = {
+    "": "btn-primary",
+    "active": "btn-primary",
+    "enabled": "btn-success",
+    "inactive": "btn-outline-inactive",
+    "disabled": "btn-outline-danger",
+}
 
 
 class actions:
@@ -99,7 +106,7 @@ class actions:
         :type buttonlocation: str, optional
         """
         newAction = action(
-            uuid.uuid5(UUID_NAMESPACE, UUID_NAME),
+            uuid.uuid4(),
             actionName,
             actionProvider,
             actionData,
@@ -118,18 +125,31 @@ class actions:
             )
         pass
 
-    def getActionById(self, id):
+    def getActionById(self, id) -> action:
+        print(f"{self.__module__} getActionById(): {id}")
         for action in self.actionObjects:
-            match id:
-                case action.id:
+            print(action.id)
+            match str(id):
+                case str(action.id):
+                    print(f"= action: {action.id}")
                     return action
-                case action.id.hex:
+                case str(action.id.hex):
+                    print(f"= action: {action.id.hex}")
                     return action
-                case action.id.int:
+                case str(action.id.int):
+                    print(f"= action: {action.id.int}")
                     return action
-                case action.id.urn:
+                case str(action.id.urn):
+                    print(f"= action: {action.id.urn}")
                     return action
         # log error, UUID crappy, this should not be possible, halt all the things
+
+    def getFriendlyList(self) -> list:
+        """get a friendly list of actions"""
+        returnList = []
+        for item in self.actionObjects:
+            returnList.append(str(item.actionProvider + ">" + str(item.action)))
+        return returnList
 
 
 class action:
@@ -157,7 +177,11 @@ class action:
         pass
 
     def getState(self):
+        # TODO: extensions.sys.modules[self.actionProvider].getState()
         pass
+
+    def getStateClass(self) -> str:
+        return stateclasses[self.state]
 
     def getButton(self) -> list:
         """returns all required elements for buttonplacement
@@ -201,12 +225,29 @@ class action:
         :return: true if good, false if bad
         :rtype: bool
         """
-        if self.actionProvider in extensions.sys.modules:
-            if extensions.sys.modules[self.actionProvider].testActionData(
-                self.actionData
-            ):
+        match self.actionProvider:
+            case "src.obs":
                 return True
-            else:
-                return False
-        else:
-            return False
+            case "src.macro":
+                return True
+            case _:
+                # print(f"actions.action.test(): testing for module {str(self.actionProvider)}")
+                # print(f"actions.action.test(): testing in {extensions.sys.modules.keys()}")
+                if str(self.actionProvider) in extensions.sys.modules.keys():
+                    # print(f"actions.action.test(): module found")
+                    # print(f"actions.action.test(): testing action data")
+                    if extensions.sys.modules[self.actionProvider].testActionData(
+                        self.actionData
+                    ):
+                        print(
+                            f"actions.action.test(): action data fine: {self.actionProvider}: {self.actionData}"
+                        )
+                        return True
+                    else:
+                        # print(f"actions.action.test(): action data not fine")
+                        return False
+                else:
+                    print(
+                        f"actions.action.test(): module not found: {self.actionProvider}"
+                    )
+                    return False

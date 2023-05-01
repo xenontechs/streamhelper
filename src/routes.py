@@ -4,8 +4,9 @@ import logging
 import src.datastore as data
 import src.macros as macro
 import src.obs as obs
-import src.extensions as extensions
 
+# import src.extensions as extensions
+# import src.actions as actions
 
 EVENTLOG_FILENAME = "event.log"
 logging.basicConfig(filename=EVENTLOG_FILENAME, level=logging.INFO)
@@ -40,7 +41,10 @@ def about():
 def status():
     data.appstatus.update()
     return render_template(
-        "status.html", statuslist=data.statuslist, navigationData=data.navigationData, appstatus=data.appstatus.__dict__
+        "status.html",
+        statuslist=data.statuslist,
+        navigationData=data.navigationData,
+        appstatus=data.appstatus.__dict__,
     )
 
 
@@ -101,7 +105,9 @@ def deck():
 # scenes page
 @bp.route("/scenes")
 def scenes():
-    return render_template("scenes.html", scenes=obs.getScenes(), navigationData=data.navigationData)
+    return render_template(
+        "scenes.html", scenes=obs.getScenes(), navigationData=data.navigationData
+    )
 
 
 # playground page
@@ -122,4 +128,29 @@ def playground():
         statuslist=data.statuslist,
         config=config,
         buttons=data.buttons,
+    )
+
+
+@bp.route("/actions", methods=["GET", "POST"])
+def actions():
+    if request.method == "POST":
+        print(request.form["execute"])
+        # needs checking if exists before call in case of app restart but bad browser
+        data.testaction.getActionById(request.form["execute"]).call()
+        pass
+        # for key, value in request.form.items():
+        #     print(key + " - " + value)
+        #     items = value.split(".")
+        # macro.raw(items[0], items[1], items[3])
+    # config = configparser.ConfigParser()
+    # config.read("config.ini")
+    # nonav = request.args.get("nonav")
+    return render_template(
+        "actions.html",
+        # nonav=nonav,
+        navigationData=data.navigationData,
+        actionData=data.testaction.actionObjects,
+        # statuslist=data.statuslist,
+        # config=config,
+        # buttons=data.buttons,
     )

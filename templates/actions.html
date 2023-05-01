@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block navigation %}
+  {% with navigationData=navigationData %}
+    {% include 'empty.html' if nonav else 'navigation.html' %}
+  {% endwith %}
+{% endblock %}
+
+
+{% block content %}
+<form method="post">
+{% for item in actionData %} 
+  {% if loop.first %} 
+    {% if not item.group == '' %} 
+      <div class="btn-group btn-group-sm border" role="group">
+    {% endif %}
+  {% endif %}
+  {% if not loop.first %} 
+    {% if not item.group == '' %} 
+      {% if not item.group == loop.previtem.group %} 
+        <div class="btn-group btn-group-sm border" role="group">
+      {% endif %}
+    {% endif %}
+  {% endif %}
+  <button type="submit" 
+    class="btn btn-sm {{ item.getStateClass() }}" 
+    name="execute" 
+    action="{{ url_for(request.endpoint) }}" 
+    value="{{ item.id.hex }}" {{ 'disabled' if not item.actionData }}>
+    {% if item.label == 'icon' %}
+      <img src="{{ item.getIconPath() }}" alt="{{ item.icon }}" class="material-symbols-outlined filter-white">
+    {% else %}
+      {{ item.label }}
+    {% endif %}
+  </button>
+
+  {% if loop.last %} 
+    {% if not item.group == '' %} 
+        </div>
+    {% endif %}
+  {% endif %}
+  {% if not loop.last %} 
+    {% if not loop.first %} 
+      {% if not item.group == loop.nextitem.group %} 
+          </div>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+</form>
+<button class="btn btn-primary btn btn-sm" onclick="location.reload(true)">refresh</button>
+{% endblock %}

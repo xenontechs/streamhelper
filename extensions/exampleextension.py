@@ -17,30 +17,31 @@ extensionSettings = {"examplesetting": 123, "extensioniscool": True}
 def init(settings={}) -> dict:
     returnSettings = {}
     if not settings == {}:
-        print("exampleextension.init: received settings")
+        # print("exampleextension.init: received settings")
         for setting, value in settings.items():
-            print(
-                "exampleextension.init: received setting "
-                + setting
-                + " with value "
-                + value
-            )
+            # print(
+            #     "exampleextension.init: received setting "
+            #     + setting
+            #     + " with value "
+            #     + value
+            # )
             if setting in extensionSettings:
-                print("exampleextension.init: setting ok")
+                # print("exampleextension.init: setting ok")
                 returnSettings[setting] = value
             else:
-                print("exampleextension.init: setting unknown, deleting")
+                # print("exampleextension.init: setting unknown, deleting")
                 returnSettings[setting] = ""
     else:
-        print("exampleextension.init: no settings received")
+        # print("exampleextension.init: no settings received")
+        pass
     for defaultsetting, value in extensionSettings.items():
         if defaultsetting not in settings:
-            print(
-                "exampleextension.init: setting "
-                + str(defaultsetting)
-                + "missing, adding with default value "
-                + str(value)
-            )
+            # print(
+            #     "exampleextension.init: setting "
+            #     + str(defaultsetting)
+            #     + "missing, adding with default value "
+            #     + str(value)
+            # )
             returnSettings[defaultsetting] = value
     return returnSettings
 

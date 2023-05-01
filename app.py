@@ -24,6 +24,7 @@ def before_first_request():
     extensions.load()
     extensions.init()
     appconfig.saveConfigToFile()
+    data.loadActions()
     data.appstatus.update()
     print("Starting server on http://localhost:5000")
 

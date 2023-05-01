@@ -70,25 +70,25 @@ def init():
         # downside: all the things, complexity, extensions HAVE to control settings actively
         # alternative: just read from extension.settings[]?
         for setting, value in data.config.items("extensionsettings"):
-            print("this my setting? " + setting + " = " + str(value))
-            print(setting.split(".")[0])
-            print(setting.split(".")[0])
-            print(extension.__name__)
+            # print("this my setting? " + setting + " = " + str(value))
+            # print(setting.split(".")[0])
+            # print(setting.split(".")[0])
+            # print(extension.__name__)
             if str(setting.split(".")[0]) == str(extension.__name__):
-                print(
-                    "yep!... because "
-                    + setting.split(".")[0]
-                    + " == "
-                    + extension.__name__
-                )
+                # print(
+                #     "yep!... because "
+                #     + setting.split(".")[0]
+                #     + " == "
+                #     + extension.__name__
+                # )
                 settings[setting.split(".")[1]] = value
-                if data.config.remove_option("extensionsettings", setting):
-                    print("removed " + setting)
-                print(data.config.items("extensionsettings"))
+                # if data.config.remove_option("extensionsettings", setting):
+                #     print("removed " + setting)
+                # print(data.config.items("extensionsettings"))
         settings = extension.init(settings)
         for setting, value in settings.items():
             extendedSettings[extension.__name__ + "." + setting] = value
-        print(extendedSettings)
+        # print(extendedSettings)
         appconfig.saveConfigToFile()
         data.config.read_dict({"extensionsettings": extendedSettings})
 

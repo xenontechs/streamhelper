@@ -1,6 +1,8 @@
 import configparser
 import src.status as status
+import src.actions as actions
 
+testaction = actions.actions()
 appstatus = status.status()
 
 
@@ -104,6 +106,7 @@ buttons = {
     "29-7": deckbutton("testing", "gamepad", "togglevisibility", "active"),
 }
 
+
 # defines links for the navigation pane
 navigationData = [
     navlink("Settings", "settings", "l"),
@@ -111,11 +114,47 @@ navigationData = [
     navlink("Status", "status", "l"),
     navlink("Log", "log", "l"),
     navlink("Deck", "deck", "l"),
+    navlink("Actions", "actions", "l"),
     navlink("Scenes", "scenes", "l"),
     navlink("playground", "playground", "l"),
     navlink("Code", "https://github.com/xenontechs", "r", target="_blank"),
     navlink("[xt]", "https://xenontechs.space", "r", target="_blank"),
 ]
+
+
+# actions to replace deckbuttons
+def loadActions():
+
+    testaction.addAction(
+        actionName="switch to BRB scene",
+        actionProvider="src.obs",
+        actionData="sceneswitch-BRB",
+        group="scenes",
+        state="",
+        label="BRB",
+        icon="",
+        buttonlocation="deck",
+    )
+    testaction.addAction(
+        actionName="test thingy",
+        actionProvider="exampleextension",
+        actionData="a good action data set",
+        group="scenes",
+        state="",
+        label="test thingy",
+        icon="",
+        buttonlocation="deck",
+    )
+    testaction.addAction(
+        actionName="ending",
+        actionProvider="src.obs",
+        actionData="sceneswitch-Stream Ending",
+        group="scenes",
+        state="",
+        label="END",
+        icon="",
+        buttonlocation="deck",
+    )
 
 
 # initialize config here, use it later in other places

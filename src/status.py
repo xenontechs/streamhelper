@@ -3,6 +3,8 @@ import src.datastore as data
 import src.obs as obs
 import flask
 import jinja2
+import src.extensions as extensions
+import src.actions as actions
 
 
 class status:
@@ -29,6 +31,9 @@ class status:
         if key == "" or key == "obsStats":
             print("statusupdate: obsStats")
             updates = updates | self.obsStats.update().__dict__
+        if key == "" or key == "selfStatus":
+            print("statusupdate: selfStatus")
+            updates = updates | self.selfStatus.update().__dict__
 
         return updates
 
@@ -78,12 +83,22 @@ class status:
             self.renderTotalFrames = update.render_total_frames
             self.outputSkippedFrames = update.output_skipped_frames
             self.outputTotalFrames = update.output_total_frames
-            self.webSocketSessionIncomingMessages = update.web_socket_session_incoming_messages
-            self.webSocketSessionOutgoingMessages = update.web_socket_session_outgoing_messages
+            self.webSocketSessionIncomingMessages = (
+                update.web_socket_session_incoming_messages
+            )
+            self.webSocketSessionOutgoingMessages = (
+                update.web_socket_session_outgoing_messages
+            )
             return self
 
     class selfStatus:
         def __init__(self) -> None:
+            self.update()
+
+        def update(self):
+            # self.modules = extensions.sys.modules.keys()
+            self.actions = data.testaction.getFriendlyList()
             self.python = sys.version
             self.flask = flask.__version__
             self.jinja2 = jinja2.__version__
+            return self
